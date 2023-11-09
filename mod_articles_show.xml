@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>mod_articles_show</name>
+	<author>Joomla! Project</author>
+	<creationDate>2023-11</creationDate>
+	<!-- <copyright>(C) 2006 Open Source Matters, Inc.</copyright> -->
+	<license>GNU General Public License version 1 or later; see LICENSE.txt</license>
+	<authorEmail></authorEmail>
+	<!-- <authorUrl>www.joomla.org</authorUrl> -->
+	<version>1.0.0</version>
+	<description>MOD_ARTICLES_SHOW_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\ArticlesShow</namespace>
+	<files>
+		<folder module="mod_articles_show">services</folder>
+		<folder>src</folder>
+		<folder>language</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/mod_articles_show.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_show.sys.ini</language>
+	</languages>
+	<help key="Site_Modules:_Articles_-_Show" />
+   <config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="catid"
+					type="category"
+					label="JCATEGORY"
+					extension="com_content"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
+				/>
+				<field
+					name="show_featured"
+					type="list"
+					label="MOD_SHOW_NEWS_FIELD_FEATURED_LABEL"
+					default=""
+					filter="integer"
+					validate="options"
+					>
+					<option value="">JSHOW</option>
+				</field>
+
+				<field
+					name="ordering"
+					type="list"
+					label="MOD_SHOW_NEWS_FIELD_ORDERING_LABEL"
+					default="random"
+					validate="options"
+					>
+					<option	value="random">MOD_SHOW_NEWS_VALUE_RECENT_RAND</option>
+				</field>
+
+				<field
+					name="user_id"
+					type="list"
+					label="MOD_SHOW_NEWS_FIELD_USER_LABEL"
+					default="0"
+					validate="options"
+					>
+					<option value="0">MOD_SHOW_NEWS_VALUE_ANYONE</option>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>
