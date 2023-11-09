@@ -34,6 +34,21 @@
 					filter="intarray"
 				/>
 				<field
+						name="count"
+						type="list"
+						label="MOD_SHOW_NEWS_FIELD_COUNT_LABEL"
+						default="1"
+						filter="integer"
+						min="1"
+						validate="options">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+				</field>
+
+				<field
 					name="show_featured"
 					type="list"
 					label="MOD_SHOW_NEWS_FIELD_FEATURED_LABEL"
@@ -53,17 +68,6 @@
 					>
 					<option	value="random">MOD_SHOW_NEWS_VALUE_RECENT_RAND</option>
 				</field>
-
-				<field
-					name="user_id"
-					type="list"
-					label="MOD_SHOW_NEWS_FIELD_USER_LABEL"
-					default="0"
-					validate="options"
-					>
-					<option value="0">MOD_SHOW_NEWS_VALUE_ANYONE</option>
-				</field>
-
 			</fieldset>
 		</fields>
 	</config>

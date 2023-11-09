@@ -10,12 +10,8 @@
 
 namespace Joomla\Module\ArticlesShow\Site\Helper;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -48,7 +44,6 @@ class ArticlesShowHelper implements DatabaseAwareInterface
     {
         // Get the Dbo and User object
         $db   = $this->getDatabase();
-        $user = $app->getIdentity();
 
         /** @var ArticlesModel $model */
         $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
@@ -59,15 +54,15 @@ class ArticlesShowHelper implements DatabaseAwareInterface
         $model->setState('list.start', 0);
         $model->setState('filter.published', 1);
 
+
         // Set the filters based on the module params
+        $model->setState('list.limit', (int) $params->get('count', 5));
+
 
         // This module does not use tags data
         $model->setState('load_tags', false);
 
-        // Access filter
-        $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($user->get('id'));
-        $model->setState('filter.access', $access);
+
 
         // Category filter
         $model->setState('filter.category_id', $params->get('catid', []));
@@ -75,8 +70,6 @@ class ArticlesShowHelper implements DatabaseAwareInterface
         // State filter
         $model->setState('filter.condition', 1);
 
-        // User filter
-        $model->setState('option.value', (int) $params->get('user_id'));
 
 
         // Filter by language
@@ -92,17 +85,6 @@ class ArticlesShowHelper implements DatabaseAwareInterface
         $model->setState('list.ordering', $db->getQuery(true)->rand());
 
         $items = $model->getItems();
-
-        foreach ($items as &$item) {
-            $item->slug    = $item->id . ':' . $item->alias;
-
-            if ($access || \in_array($item->access, $authorised)) {
-                // We know that user has the privilege to view the article
-                $item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
-            } else {
-                $item->link = Route::_('index.php?option=com_users&view=login');
-            }
-        }
 
         return $items;
     }
